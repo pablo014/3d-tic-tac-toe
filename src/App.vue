@@ -1,5 +1,5 @@
 <template>
-  <TBoard />
+  <TBoard @calculate="onCalculate" />
 </template>
 
 <script>
@@ -18,6 +18,12 @@ export default {
     }
     provide('player', player);
     provide('switchPlayer', switchPlayer);
+    const onCalculate = (winner) => {
+      console.log(winner);
+    };
+    return {
+      onCalculate,
+    };
   }
 }
 </script>
