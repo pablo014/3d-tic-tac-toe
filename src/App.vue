@@ -4,11 +4,20 @@
 
 <script>
 import TBoard from './components/TBoard.vue'
+import { ref, provide } from 'vue'
 
 export default {
   name: 'App',
   components: {
     TBoard
+  },
+  setup() {
+    const player = ref('x');
+    const switchPlayer = (nextPlayer) => {
+      player.value = nextPlayer;
+    }
+    provide('player', player);
+    provide('switchPlayer', switchPlayer);
   }
 }
 </script>
