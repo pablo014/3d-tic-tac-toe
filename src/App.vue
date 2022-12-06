@@ -1,5 +1,16 @@
 <template>
-  <TBoard @calculate="onCalculate" />
+  <TBoard :active-index="active">
+    <template #item="slotProps">
+      <div class="relative " :class="slotProps.pRecord.x.includes(slotProps.index) ? 'bg-red-400' : slotProps.pRecord.o.includes(slotProps.index) ? 'bg-blue-400' : ''">
+        <div v-if="!slotProps.isActive" class="w-full h-full bg-gray-400 opacity-40 absolute" />
+        <TBoard @click="(index) => active = index" @calculate="(winner) => {
+          if(winner != '') {
+            slotProps.calculateWinner(slotProps.index)
+          }
+        }"/>
+      </div>
+    </template>
+  </TBoard>
 </template>
 
 <script>
@@ -13,17 +24,15 @@ export default {
   },
   setup() {
     const player = ref('x');
+    const active = ref(5);
     const switchPlayer = (nextPlayer) => {
       player.value = nextPlayer;
     }
     provide('player', player);
     provide('switchPlayer', switchPlayer);
-    const onCalculate = (winner) => {
-      console.log(winner);
-    };
     return {
-      onCalculate,
-    };
+      active,
+    }
   }
 }
 </script>
