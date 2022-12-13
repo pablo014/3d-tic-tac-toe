@@ -3,7 +3,11 @@
     <template #item="slotProps">
       <div class="relative " :class="slotProps.pRecord.x.includes(slotProps.index) ? 'bg-red-400' : slotProps.pRecord.o.includes(slotProps.index) ? 'bg-blue-400' : ''">
         <div v-if="!slotProps.isActive" class="w-full h-full bg-gray-400 opacity-40 absolute" />
-        <TBoard @click="(index) => active = index" @calculate="(winner) => {
+        <TBoard :isDisabled="!slotProps.isActive" @click="(index) => {
+          if (slotProps.isActive) {
+            active = index;
+          }
+        }" @calculate="(winner) => {
           if(winner != '') {
             slotProps.calculateWinner(slotProps.index)
           }

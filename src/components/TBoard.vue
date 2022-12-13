@@ -7,6 +7,7 @@ const winner = ref('');
 const emit = defineEmits(['calculate', 'click']);
 const props = defineProps({
     activeIndex: Number,
+    isDisabled: Boolean
 });
 const pRecord = ref({
     'x': [],
@@ -15,7 +16,7 @@ const pRecord = ref({
 const calculateWinner = (index) => {
     emit('click', index);
     //only if winner has not been determined
-    if (winner.value == '') {
+    if (winner.value == '' && !props.isDisabled) {
         pRecord.value[player.value].push(index);
         const playerR = pRecord.value[player.value];
         //Go through all the winnning lines
@@ -33,7 +34,7 @@ const calculateWinner = (index) => {
     <div class="flex flex-wrap">
         <div class="w-1/3 border-2 border-black flex items-center justify-center" v-for="index in 9" :key="index">
             <slot name="item" :index="index" :calculateWinner="calculateWinner" :pRecord="pRecord" :isActive="props.activeIndex === index">
-                <TItem @click="calculateWinner(index)"/>
+                <TItem :isDisabled="props.isDisabled" @click="() => calculateWinner(index)" />
             </slot>
         </div>
     </div>
